@@ -22,7 +22,7 @@ I am writing to submit my work for the "Raah Hi" assignment. I am pleased to con
 - **1:** Frontend Technology: Utilized Flutter for the frontend.
 - **2:** Routing: Employed the Go Router for managing routing.
 - **3:** State Management: Implemented Bloc for efficient state management.
-- **4:** API Requests: Utilized the Http package for making API requests.
+- **4:** API Requests: Utilized the HTTP package for making API requests.
 
 
 
@@ -35,6 +35,9 @@ I am writing to submit my work for the "Raah Hi" assignment. I am pleased to con
 
 - **Details View:** Provides information about the selected destination, including a description, images, key locations, and a bookmark button. Users can add the destination to their wishlist or remove it from there by tapping the bookmark button.
 
+# How to Run:
+Requires Flutter SDK 3.0+.
+Clone the repository and run the app.
 
 ## Submission BY
 
