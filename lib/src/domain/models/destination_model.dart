@@ -16,14 +16,14 @@ class DestinationModel {
   final List<String> images;
   final String name;
   final String shortDescription;
-  final int v;
+  final List<String> keyAttractions;
 
   DestinationModel({
     required this.id,
     required this.images,
     required this.name,
     required this.shortDescription,
-    required this.v,
+    required this.keyAttractions,
   });
 
   factory DestinationModel.fromJson(Map<String, dynamic> json) =>
@@ -32,7 +32,7 @@ class DestinationModel {
         images: List<String>.from(json["images"].map((x) => x)),
         name: json["name"],
         shortDescription: json["shortDescription"],
-        v: json["__v"],
+        keyAttractions: List<String>.from(json["keyAttractions"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +40,6 @@ class DestinationModel {
         "images": List<dynamic>.from(images.map((x) => x)),
         "name": name,
         "shortDescription": shortDescription,
-        "__v": v,
+        "keyAttractions": List<dynamic>.from(keyAttractions.map((x) => x)),
       };
 }

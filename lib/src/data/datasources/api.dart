@@ -8,7 +8,7 @@ import 'package:travel_app/src/domain/models/destination_model.dart';
 import 'package:travel_app/src/domain/models/wishlist_model.dart';
 
 class ApiService {
-  static String baseUrl = 'http://192.168.1.37:3000/';
+  static String baseUrl = 'https://travel-app-backend-mf1k.onrender.com/';
   // static String usersEndpoint = '/users';
   var client = http.Client();
 
@@ -18,7 +18,7 @@ class ApiService {
 
       var response = await client.get(url);
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
+        debugPrint(jsonDecode(response.body));
         debugPrint('Destination added to wishlist');
       }
     } catch (e) {
@@ -32,27 +32,37 @@ class ApiService {
       var response =
           await client.post(url, body: {"email": email, "password": password});
       if (response.statusCode == 200) {
-        debugPrint('Destination added to wishlist');
+        debugPrint('User Signup Success');
         return true;
       }
     } catch (e) {
-      debugPrint('Destination added to wishlist');
+      debugPrint('User Signup failded');
     }
     return false;
   }
 
   Future<bool> logInUser({required email, required String password}) async {
     try {
+      print(email + password);
       var url = Uri.parse('${baseUrl}user/login');
       var response =
           await client.post(url, body: {"email": email, "password": password});
       if (response.statusCode == 200) {
+        Map<String, String> v =
+            Map<String, String>.from(jsonDecode(response.body));
+
+        print('print v' + v.toString());
         saveUserLocally(jsonDecode(response.body));
+
         debugPrint('Login Success');
         return true;
+      } else {
+        print(response.statusCode);
+        print('got other response in signinig');
       }
     } catch (e) {
-      debugPrint('Destination added to wishlist');
+      debugPrint('Problem in signing: $e');
+      print(e.toString());
     }
     return false;
   }
@@ -64,8 +74,8 @@ class ApiService {
       var response = await client.get(url);
       if (response.statusCode == 200) {
         // debugPrint('status 200');
-        // print(userId);
-        // print(response.body);
+        // debugPrint(userId);
+        // debugPrint(response.body);
         return wishlistModelFromJson(response.body);
       } else if (response.statusCode == 404) {
         debugPrint('Wishlist doesn\'t found');
@@ -73,6 +83,7 @@ class ApiService {
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 
   Future<List<DestinationModel>?> getDestinations() async {
@@ -143,57 +154,7 @@ class ApiService {
     var data = await storage.read(key: 'current_user');
     if (data != null) {
       final user = jsonDecode(data);
-      print(user);
-    }
-  }
-  // Future<RestaurnatModel?> getRestaurants() async {
-  //   try {
-  //     var url = Uri.parse(baseUrl);
-  //     var response = await client.get(url);
-  //     if (response.statusCode == 200) {
-  //       var json = response.body;
-  //       return restaurnatModelFromJson(json);
-  //     }
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  //   return null;
-  // }
-
-  // Future<MenuModel?> getMenu({required String restaurantId}) async {
-  //   try {
-  //     var url = Uri.parse('$baseUrl/$restaurantId');
-  //     var response = await client.get(url);
-  //     if (response.statusCode == 200) {
-  //       var json = response.body;
-  //       return menuModelFromJson(json);
-  //     }
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  //   return null;
-  // }
-
-  Future<void> addMenu(
-      {required String restaurantId,
-      required Map<String, dynamic> newMenu}) async {
-    var url = Uri.parse('$baseUrl/menu/add/$restaurantId');
-    // Send a POST request to add the new food item
-    final response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(newMenu), // Encode the JSON
-    );
-
-    if (response.statusCode == 200) {
-      debugPrint(newMenu["dishName"] + 'is added in restaruant' + restaurantId);
-    } else {
-      // If the server did not return a 200 OK response, handle the error
-      debugPrint(
-          'Failed to add food item. Status code: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      debugPrint(user);
     }
   }
 }

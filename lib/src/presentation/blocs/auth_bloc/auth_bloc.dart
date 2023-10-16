@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         var isAuthenticated = await ApiService()
             .signupUser(email: event.email, password: event.password);
         if (isAuthenticated) {
-          add(SignInUserEvent(event.email, event.password));
+          add(SignInUserEvent(email: event.email, password: event.password));
           debugPrint('auth');
         } else {
           emit(UnAuthenticatedState());
